@@ -1,0 +1,69 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.form-container {
+  background-color: hsl(0, 0%, 91%);
+  width: 50%;
+  margin: auto;
+  margin-top: 100px;
+  padding: 20px 10px;
+  border-radius: 6px;
+  text-transform: uppercase;
+
+  .input-container {
+    margin: 20px 0px;
+    font-size: 1.15rem;
+  }
+
+  & .form-heading {
+    text-align: center;
+  }
+
+  & input {
+    width: 100%;
+    margin: 10px auto;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+  }
+  button {
+    padding: 10px 20px;
+    background-color: hsl(229, 100%, 50%);
+    color: hsl(0, 0%, 100%);
+    border: none;
+    width: 100%;
+    font-size: 1.2rem;
+    border-radius: 6px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-bottom: 10px;
+
+    &:hover {
+      background-color: hsla(229, 100%, 50%, 0.733);
+    }
+  }
+
+  .error {
+    color: red;
+    text-transform: capitalize;
+  }
+
+  & .forget-password {
+    text-align: right;
+    font-size: 1.2rem;
+    padding: 10px 0px;
+    display: flex;
+    justify-content: space-between;
+
+    & a {
+      text-decoration: none;
+      color: black;
+
+      &:hover {
+        color: hsla(229, 100%, 50%);
+      }
+    }
+  }
+}
