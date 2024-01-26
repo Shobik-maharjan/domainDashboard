@@ -8,13 +8,13 @@ const Sidebar = () => {
 
   function dropdownShowHide() {
     console.log("clicked");
-    !showHide ? setStyle("dropdown-showHide") : setStyle(" ");
+    !showHide ? setShowHide("dropdown-showHide") : setShowHide("");
   }
   return (
     <>
       <div className="sidenav">
         <ul>
-          <li className="sidenav__dropdown" onClick={dropdownShowHide()}>
+          <li className="sidenav__dropdown" onClick={dropdownShowHide}>
             Domain <RiArrowDropDownLine />
           </li>
           <ul className={showHide}>

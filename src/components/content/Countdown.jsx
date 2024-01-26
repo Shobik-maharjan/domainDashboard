@@ -25,26 +25,23 @@ const Countdown = () => {
 
     if (isRunning) {
       interval = setInterval(() => {
-        {
-          if (milliseconds > 0) {
-            setMilliseconds((milliseconds) => milliseconds - 1);
-          } else if (seconds > 0) {
-            setSeconds((seconds) => seconds - 1);
-            setMilliseconds(99);
-          } else if (minutes > 0) {
-            setMinutes((minutes) => minutes - 1);
-            setSeconds(59);
-            setMilliseconds(99);
-          } else if (hours > 0) {
-            setHours((hours) => hours - 1);
-            setMinutes(59);
-            setSeconds(59);
-            setMilliseconds(99);
-          }
+        if (milliseconds > 0) {
+          setMilliseconds((milliseconds) => milliseconds - 1);
+        } else if (seconds > 0) {
+          setSeconds((seconds) => seconds - 1);
+          setMilliseconds(99);
+        } else if (minutes > 0) {
+          setMinutes((minutes) => minutes - 1);
+          setSeconds(59);
+          setMilliseconds(99);
+        } else if (hours > 0) {
+          setHours((hours) => hours - 1);
+          setMinutes(59);
+          setSeconds(59);
+          setMilliseconds(99);
         }
       }, 10);
     }
-
     if (hours === 0 && minutes === 0 && seconds === 0 && milliseconds === 1) {
       setShowEndScreen({ ...showEndScreen, show: true });
       resetTimer();
