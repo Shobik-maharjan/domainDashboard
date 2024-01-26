@@ -1,0 +1,38 @@
+.countdown-container {
+}
+
+.timerWrapper {
+  width: 600px;
+  background-color: #222;
+  color: white;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  box-shadow: 5px 4px 6px rgba(0, 0, 0, 0.4);
+  padding: 1rem;
+}
+
+.stop-watch {
+  font-size: 6rem;
+  margin-right: 1rem;
+}
+
+label {
+  margin-bottom: 0.5rem;
+}
+input {
+  width: 100px;
+  margin-right: 1rem;
+  color: #282c34;
+  border: none;
+  outline: none;
+  font-size: 4.5rem;
+  text-align: center;
+  padding: 0rem 0.5rem;
+
+  &:hover {
+    background-color: #928f8f;
+  }
+}
