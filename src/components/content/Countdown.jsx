@@ -15,6 +15,7 @@ const Countdown = () => {
   const [milliseconds, setMilliseconds] = useState(0);
   const [isRunning, setIsRunning] = useState(null);
 
+  const [targetTime, setTargetTime] = useState(null);
   //end of time
   const [showEndScreen, setShowEndScreen] = useState({
     show: false,
@@ -23,40 +24,96 @@ const Countdown = () => {
   useEffect(() => {
     let interval;
 
-    if (isRunning) {
-      interval = setInterval(() => {
-        if (milliseconds > 0) {
-          setMilliseconds((milliseconds) => milliseconds - 1);
-        } else if (seconds > 0) {
-          setSeconds((seconds) => seconds - 1);
-          setMilliseconds(99);
-        } else if (minutes > 0) {
-          setMinutes((minutes) => minutes - 1);
-          setSeconds(59);
-          setMilliseconds(99);
-        } else if (hours > 0) {
-          setHours((hours) => hours - 1);
-          setMinutes(59);
-          setSeconds(59);
-          setMilliseconds(99);
-        }
-      }, 10);
-    }
-    if (hours === 0 && minutes === 0 && seconds === 0 && milliseconds === 1) {
-      setShowEndScreen({ ...showEndScreen, show: true });
-      resetTimer();
-    }
+    // if (isRunning) {
+    //   interval = setInterval(() => {
+    //     if (milliseconds > 0) {
+    //       setMilliseconds((milliseconds) => milliseconds - 1);
+    //     } else if (seconds > 0) {
+    //       setSeconds((seconds) => seconds - 1);
+    //       setMilliseconds(99);
+    //     } else if (minutes > 0) {
+    //       setMinutes((minutes) => minutes - 1);
+    //       setSeconds(59);
+    //       setMilliseconds(99);
+    //     } else if (hours > 0) {
+    //       setHours((hours) => hours - 1);
+    //       setMinutes(59);
+    //       setSeconds(59);
+    //       setMilliseconds(99);
+    //     }
+    //   }, 10);
+    // }
+    // if (hours === 0 && minutes === 0 && seconds === 0 && milliseconds <= 0) {
+    //   setShowEndScreen({ ...showEndScreen, show: true });
+    //   resetTimer();
+    // }
 
+    // if (isRunning) {
+    //   const totalMilliseconds =
+    //     hours * 3600000 + minutes * 60000 + seconds * 1000 + milliseconds;
+
+    //   interval = setInterval(() => {
+    //     if (totalMilliseconds > 0) {
+    //       const updatedMilliseconds = totalMilliseconds - 10;
+    //       setHours(Math.floor(updatedMilliseconds / 3600000));
+    //       setMinutes(Math.floor((updatedMilliseconds % 3600000) / 60000));
+    //       setSeconds(Math.floor((updatedMilliseconds % 60000) / 1000));
+    //       setMilliseconds(updatedMilliseconds % 1000);
+    //     } else {
+    //       // Timer has reached 0
+    //       clearInterval(interval);
+    //       setShowEndScreen({ ...showEndScreen, show: true });
+    //       resetTimer();
+    //     }
+    //   }, 10);
+    // }
+
+    const updateTimer = () => {
+      const currentTime = new Date().getTime();
+      const remainingTime = Math.max(0, targetTime - currentTime);
+
+      if (remainingTime > 0) {
+        const remainingSeconds = Math.floor(remainingTime / 1000);
+        const remainingMilliseconds = remainingTime % 1000;
+
+        setMilliseconds(remainingMilliseconds);
+        setSeconds(remainingSeconds % 60);
+        setMinutes(Math.floor(remainingSeconds / 60) % 60);
+        setHours(Math.floor(remainingSeconds / 3600));
+      } else {
+        clearInterval(interval);
+        setShowEndScreen({ ...showEndScreen, show: true });
+        resetTimer();
+      }
+    };
+
+    if (isRunning) {
+      interval = setInterval(updateTimer, 10);
+    }
     return () => clearInterval(interval);
-  }, [milliseconds, seconds, minutes, hours, isRunning, showEndScreen.show]);
+  }, [
+    milliseconds,
+    seconds,
+    minutes,
+    hours,
+    isRunning,
+    targetTime,
+    showEndScreen.show,
+  ]);
 
   // start
+
   function startTimer() {
-    if (hours !== 0 || minutes !== 0 || seconds !== 0 || milliseconds !== 0) {
+    const totalMilliseconds =
+      hours * 3600000 + minutes * 60000 + seconds * 1000 + milliseconds;
+
+    if (totalMilliseconds > 0) {
+      const currentTime = new Date().getTime();
+      setTargetTime(currentTime + totalMilliseconds);
       setIsRunning(true);
       setShowEndScreen({ ...showEndScreen, show: false });
     } else {
-      window.alert("add time.");
+      window.alert("Please add time.");
     }
   }
 
@@ -79,20 +136,24 @@ const Countdown = () => {
   }
 
   // Handlers
-  const changeSeconds = (e) => {
-    let value = parseInt(e.target.value, 10);
-    if (isNaN(value) || value < 0) value = 0;
-    setSeconds(value > 60 ? 60 : value);
+  const changeTime = (value, max) => {
+    let newValue = parseInt(value, 10);
+    if (isNaN(newValue) || newValue < 0) {
+      newValue = 0;
+    }
+    return newValue > max ? max : newValue;
   };
-  const changeMinutes = (e) => {
-    let value = parseInt(e.target.value, 10);
-    if (isNaN(value) || value < 0) value = 0;
-    setMinutes(value > 60 ? 60 : value);
-  };
+
   const changeHours = (e) => {
-    let value = parseInt(e.target.value, 10);
-    if (isNaN(value) || value < 0) value = 0;
-    setHours(value > 24 ? 24 : value);
+    setHours(changeTime(e.target.value, 24));
+  };
+
+  const changeMinutes = (e) => {
+    setMinutes(changeTime(e.target.value, 59));
+  };
+
+  const changeSeconds = (e) => {
+    setSeconds(changeTime(e.target.value, 59));
   };
 
   return (
