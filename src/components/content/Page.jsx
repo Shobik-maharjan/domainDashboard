@@ -8,7 +8,7 @@ const Page = () => {
         style={{
           width: "76vw",
           marginLeft: "auto",
-          marginTop: "80px",
+          marginTop: "10vh",
           padding: "20px",
         }}
       >

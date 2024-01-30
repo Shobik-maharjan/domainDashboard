@@ -13,12 +13,13 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (email === "email@gmail.com" || email !== "") {
-      if (password === "password" || password !== "") {
+    if (email === "email@gmail.com" && email !== "") {
+      if (password === "password" && password !== "") {
         navigate("/content");
       }
     } else {
       setError("Please enter your email and password correctly");
+      return;
     }
   };
   return (
@@ -34,7 +35,7 @@ const Login = () => {
               name="email"
               id="email"
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email here"
+              placeholder="email@gmail.com"
             />
           </div>
           <div className="input-container">
@@ -44,7 +45,7 @@ const Login = () => {
               name="password"
               id="password"
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password here"
+              placeholder="password"
             />
           </div>
           <button type="submit" id="form-login">

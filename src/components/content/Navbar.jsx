@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./navbar.scss";
 import { NavLink } from "react-router-dom";
+import { RxAvatar } from "react-icons/rx";
+import { TbWorldWww } from "react-icons/tb";
 
 const Navbar = () => {
   const [colorChange, setColorchange] = useState(false);
@@ -20,13 +22,27 @@ const Navbar = () => {
     >
       <ul className="navbar">
         <li>
-          <NavLink>Logo</NavLink>
+          <NavLink className="nav-logo">
+            <TbWorldWww />
+          </NavLink>
         </li>
         <li>
-          <NavLink>Search</NavLink>
+          <NavLink>
+            <label htmlFor="search" className="nav-search__label">
+              Search:
+            </label>
+            <input
+              type="search"
+              name="search"
+              id="search"
+              className="nav-search__input"
+            />
+          </NavLink>
         </li>
         <li>
-          <NavLink>Profile</NavLink>
+          <NavLink className="nav-avatar">
+            <RxAvatar />
+          </NavLink>
         </li>
       </ul>
     </main>

@@ -165,12 +165,22 @@ const Countdown = () => {
         <div className="timerWrapper">
           <BsStopwatch className="stop-watch" />
           <div>
-            <label htmlFor="hours">hh</label>
-            <input id="hours" value={hours} onChange={changeHours} />
+            <label className="label" htmlFor="hours">
+              hh
+            </label>
+            <input
+              className="input"
+              id="hours"
+              value={hours}
+              onChange={changeHours}
+            />
           </div>
           <div>
-            <label htmlFor="minutes">mm</label>
+            <label className="label" htmlFor="minutes">
+              mm
+            </label>
             <input
+              className="input"
               id="minutes"
               value={minutes}
               onChange={changeMinutes}
@@ -178,8 +188,11 @@ const Countdown = () => {
             />
           </div>
           <div>
-            <label htmlFor="seconds">ss</label>
+            <label className="label" htmlFor="seconds">
+              ss
+            </label>
             <input
+              className="input"
               id="seconds"
               value={seconds}
               onChange={changeSeconds}
@@ -187,8 +200,15 @@ const Countdown = () => {
             />
           </div>
           <div>
-            <label htmlFor="milliseconds">ms</label>
-            <input id="milliseconds" value={milliseconds} readOnly />
+            <label className="label" htmlFor="milliseconds">
+              ms
+            </label>
+            <input
+              className="input"
+              id="milliseconds"
+              value={milliseconds}
+              readOnly
+            />
           </div>
 
           <br />
