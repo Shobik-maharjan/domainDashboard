@@ -15,12 +15,18 @@
     width: 90%;
     margin: auto;
 
+    .nav-avatar {
+      font-size: 3rem;
+      margin-left: auto;
+    }
+
     li {
       list-style-type: none;
       margin: 0px 20px;
 
       .nav-logo {
-        font-size: 5rem;
+        font-size: 3.5rem;
+        display: flex;
       }
       .nav-search__label {
         padding-right: 10px;
@@ -29,9 +35,6 @@
       .nav-search__input {
         padding: 6px;
         font-size: 1.15rem;
-      }
-      .nav-avatar {
-        font-size: 3rem;
       }
       a {
         display: flex;

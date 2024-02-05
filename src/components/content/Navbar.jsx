@@ -14,6 +14,12 @@ const Navbar = () => {
     }
   };
   window.addEventListener("scroll", changeNavbarColor);
+
+  const logout = () => {
+    localStorage.removeItem("authenticated");
+    navigate("/login");
+  };
+
   return (
     <main
       className={
@@ -39,10 +45,13 @@ const Navbar = () => {
             />
           </NavLink>
         </li>
-        <li>
-          <NavLink className="nav-avatar">
+        <li className="nav-avatar">
+          <NavLink className="">
             <RxAvatar />
           </NavLink>
+        </li>
+        <li>
+          <NavLink onClick={logout}>Logout</NavLink>
         </li>
       </ul>
     </main>

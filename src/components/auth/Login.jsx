@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./login.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./database/Firebase";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -8,24 +10,25 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  console.log(email);
-  console.log(password);
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (email === "email@gmail.com" && email !== "") {
-      if (password === "password" && password !== "") {
-        navigate("/content");
-      }
-    } else {
-      setError("Please enter your email and password correctly");
-      return;
-    }
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        localStorage.setItem("authenticated", user.uid);
+        navigate("/");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setError(errorCode, errorMessage);
+      });
   };
   return (
     <>
       <div className="form-container">
-        <h2 className="form-heading">Please Login</h2>
+        <h2 className="form-heading">Login</h2>
         <form action="" onSubmit={handleSubmit}>
           <div className="input-container">
             <label htmlFor="email">Email : </label>
@@ -34,6 +37,7 @@ const Login = () => {
               type="text"
               name="email"
               id="email"
+              autoComplete="on"
               onChange={(e) => setEmail(e.target.value)}
               placeholder="email@gmail.com"
             />
@@ -41,6 +45,7 @@ const Login = () => {
           <div className="input-container">
             <label htmlFor="password">Password : </label>
             <input
+              value={password}
               type="password"
               name="password"
               id="password"
@@ -52,12 +57,10 @@ const Login = () => {
             Login
           </button>
 
-          <label htmlFor="error" className="error">
-            {error}
-          </label>
+          <div className="error">{error}</div>
 
           <div className="forget-password">
-            <Link to={"/"}>Register</Link>
+            <Link to={"/register"}>Register</Link>
             <Link to="/forgetPassword">forget password?</Link>
           </div>
         </form>
