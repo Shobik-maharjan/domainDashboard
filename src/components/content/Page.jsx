@@ -10,6 +10,7 @@ const Page = () => {
           marginLeft: "auto",
           marginTop: "10vh",
           padding: "20px",
+          backgroundColor: " hsla(0, 0%, 83%, 0.479)",
         }}
       >
         <Countdown />

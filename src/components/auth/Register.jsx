@@ -1,9 +1,10 @@
 import { push, ref } from "firebase/database";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { database } from "./database/Firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../auth/database/Firebase";
+import { auth, database } from "../auth/database/Firebase";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -11,24 +12,47 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (password === confirmPassword) {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          console.log(user);
-          navigate("/login");
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(errorCode, errorMessage);
-          setError(errorMessage);
-        });
+    console.log(auth);
+    if (email === auth) {
+      console.log("email same");
+      return;
+    }
+
+    if (loading) {
+      return;
+    }
+    if (
+      email !== "" &&
+      email !== null &&
+      password !== "" &&
+      password !== null
+    ) {
+      if (password === confirmPassword) {
+        setLoading(true);
+        createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            toast.success("User registered successfully");
+            setTimeout(() => {
+              navigate("/login");
+            }, 2000);
+            setLoading(false);
+          })
+          .catch((err) => {
+            const errorMessage = err.message;
+            console.log(err);
+            setError(errorMessage);
+            setLoading(false);
+          });
+      } else {
+        setError("password and confirmation password do not match.");
+      }
     } else {
-      setError("The password and confirmation password do not match.");
+      setError("All field are required");
     }
   };
   return (
@@ -37,7 +61,9 @@ const Register = () => {
         <h2 className="form-heading">Register</h2>
         <form action="" onSubmit={handleSubmit}>
           <div className="input-container">
-            <label htmlFor="email">Email : </label>
+            <label htmlFor="email" className="required">
+              Email :
+            </label>
             <input
               value={email}
               type="text"
@@ -49,7 +75,9 @@ const Register = () => {
             />
           </div>
           <div className="input-container">
-            <label htmlFor="password">Password : </label>
+            <label htmlFor="password" className="required">
+              Password :
+            </label>
             <input
               value={password}
               type="password"
@@ -60,7 +88,9 @@ const Register = () => {
             />
           </div>
           <div className="input-container">
-            <label htmlFor="confirmPassword">Confirm Password : </label>
+            <label htmlFor="confirmPassword" className="required">
+              Confirm Password :
+            </label>
             <input
               value={confirmPassword}
               type="password"
@@ -70,15 +100,16 @@ const Register = () => {
               placeholder="password"
             />
           </div>
-          <button type="submit" id="form-login">
+          <button type="submit" id="form-login" className="submit-btn">
             Register
           </button>
 
           <div className="error">{error}</div>
 
           <div className="forget-password">
-            <Link to={"/"}>Login</Link>
+            <Link to={"/"}>Login Here</Link>
           </div>
+          <ToastContainer />
         </form>
       </div>
     </>
